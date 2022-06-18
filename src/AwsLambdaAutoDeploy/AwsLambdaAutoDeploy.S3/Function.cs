@@ -1,17 +1,20 @@
+using System.Xml.Serialization;
+using Amazon.Lambda;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.Model;
 using Amazon.Lambda.S3Events;
 using Amazon.S3;
-using Amazon.S3.Util;
+using AwsLambdaAutoDeploy.S3.Infrastructure;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace AwsLambdaAutoDeploy;
+namespace AwsLambdaAutoDeploy.S3;
 
 public class Function
 {
     IAmazonS3 S3Client { get; set; }
-
+    private IManifestProvider _manifestProvider;
     /// <summary>
     /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
     /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
@@ -20,6 +23,7 @@ public class Function
     public Function()
     {
         S3Client = new AmazonS3Client();
+        _manifestProvider = new ManifestProvider();
     }
 
     /// <summary>
@@ -46,9 +50,31 @@ public class Function
             return null;
         }
 
+        
         try
         {
             var response = await this.S3Client.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
+            IAmazonLambda lambda = new AmazonLambdaClient();
+            var manifests = await _manifestProvider.LoadLambdaManifests(new SourceContext()
+                { SourceIdentifier = s3Event.Bucket.Name });
+            var a = s3Event.Object.Key.Split("/").ToList();
+
+            if (a.Count > 0) 
+                a.RemoveAt(a.Count - 1);
+            var path = string.Join('/', a);
+            if (!manifests.ContainsKey(path))
+            {
+                context.Logger.LogWarning($"For file: ${s3Event.Object.Key}, no deployment is defined in manifest");
+                return null;
+            }
+
+            var result = await lambda.UpdateFunctionCodeAsync(new UpdateFunctionCodeRequest()
+            {
+                FunctionName = manifests[path],
+                S3Key = s3Event.Object.Key,
+                S3Bucket = s3Event.Bucket.Name,
+                //S3ObjectVersion = version
+            });
             return response.Headers.ContentType;
         }
         catch(Exception e)
