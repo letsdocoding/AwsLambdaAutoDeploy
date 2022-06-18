@@ -1,0 +1,21 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:UpdateFunctionCode",
+        "s3:GetObjectAcl",
+        "s3:GetObject",
+        "s3:GetObjectVersionAcl",
+        "s3:GetObjectTagging",
+        "s3:GetObjectVersion"
+      ],
+      "Resource": [
+        "arn:aws:lambda:ap-south-1:__ACCOUNT_NO__:function:*",
+        "arn:aws:s3:::__BUCKET_NAME__/*"
+      ]
+    }
+  ]
+}
