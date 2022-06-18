@@ -1,4 +1,6 @@
 # AwsLambdaAutoDeploy
+# Status [![.NET](https://github.com/letsdocoding/AwsLambdaAutoDeploy/actions/workflows/dotnet.yml/badge.svg)](https://github.com/letsdocoding/AwsLambdaAutoDeploy/actions/workflows/dotnet.yml)
+
 This Tool aimes at providing auto deployment options for Lambda from multiple sources. 
 ## Roadmap
 Following is the roadmap for the current option
