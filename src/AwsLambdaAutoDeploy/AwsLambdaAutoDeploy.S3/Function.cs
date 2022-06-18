@@ -1,4 +1,3 @@
-using System.Xml.Serialization;
 using Amazon.Lambda;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Model;
@@ -32,9 +31,10 @@ public class Function
     /// <param name="s3Client"></param>
     public Function(IAmazonS3 s3Client)
     {
-        this.S3Client = s3Client;
+        S3Client = s3Client;
+        _manifestProvider = new ManifestProvider();
     }
-    
+
     /// <summary>
     /// This method is called for every Lambda invocation. This method takes in an S3 event object and can be used 
     /// to respond to S3 notifications.
@@ -53,7 +53,7 @@ public class Function
         
         try
         {
-            var response = await this.S3Client.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
+            var response = await S3Client.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
             IAmazonLambda lambda = new AmazonLambdaClient();
             var manifests = await _manifestProvider.LoadLambdaManifests(new SourceContext()
                 { SourceIdentifier = s3Event.Bucket.Name });
