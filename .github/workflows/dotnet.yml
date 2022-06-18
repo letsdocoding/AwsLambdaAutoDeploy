@@ -1,0 +1,25 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/AwsLambdaAutoDeploy/AwsLambdaAutoDeploy.sln
+    - name: Build
+      run: dotnet build src/AwsLambdaAutoDeploy/AwsLambdaAutoDeploy.sln --no-restore
+    - name: Test
+      run: dotnet test src/AwsLambdaAutoDeploy/AwsLambdaAutoDeploy.sln --no-build --verbosity normal
