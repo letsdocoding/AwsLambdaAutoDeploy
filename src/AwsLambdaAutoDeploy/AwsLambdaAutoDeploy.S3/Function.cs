@@ -68,6 +68,7 @@ public class Function
                 return null;
             }
 
+            context.Logger.Log($"Updating {manifests[path]} with {s3Event.Bucket.Name}/{s3Event.Object.Key}");
             var result = await lambda.UpdateFunctionCodeAsync(new UpdateFunctionCodeRequest()
             {
                 FunctionName = manifests[path],
