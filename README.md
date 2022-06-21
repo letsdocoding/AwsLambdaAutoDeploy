@@ -24,6 +24,7 @@ Following is the roadmap for the current option
 
 
 # Auto Deploy Lambda from S3
+[Project Ref](src/AwsLambdaAutoDeploy/AwsLambdaAutoDeploy.S3/AwsLambdaAutoDeploy.S3.csproj)
 ## Basic Design
 The basic design is pretty simple and self explanatory. Refer to the image below:
 ![image](Docs/images/s3-auto-deploy.jpg "AWS Lambda Auto Deploy from S3 Design")
@@ -32,6 +33,9 @@ The basic design is pretty simple and self explanatory. Refer to the image below
 1. Run the workflow pipeline after commit. If you to run every time, use main as target, otherwise, use manual workflow.
    1. Workflow parameters can be used in input to control which environments to deploy. 
 2. Make sure you have the correct S3 IAM and lambda policies defined. For reference the same can be found as described below:
-   1. S3 Publish access permission for Github. [ref policy](src/SupportObjects/Policies/default-policy.json)
-   2. Lambda Publish policy. [ref policy]()
-3. 
+   1. S3 Publish access permission for Github. [ref policy](src/SupportObjects/Policies/s3-push-from-github.json)
+   2. Lambda Publish policy. [ref policy](src/SupportObjects/Policies/default-policy-lambda-publish-from-s3.json)
+3. **Update and Upload** the Manifest file to root: Manifest file defines which lambda to deploy from which path. [sample manifest file](src/SupportObjects/Manifest/manifest.json)
+4. you are all done. 
+
+Most things are straightforward, in case you need any support, feel free to drop in the issues.
