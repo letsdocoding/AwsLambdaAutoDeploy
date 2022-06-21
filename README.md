@@ -36,6 +36,7 @@ The basic design is pretty simple and self explanatory. Refer to the image below
    1. S3 Publish access permission for Github. [ref policy](src/SupportObjects/Policies/s3-push-from-github.json)
    2. Lambda Publish policy. [ref policy](src/SupportObjects/Policies/default-policy-lambda-publish-from-s3.json)
 3. **Update and Upload** the Manifest file to root: Manifest file defines which lambda to deploy from which path. [sample manifest file](src/SupportObjects/Manifest/manifest.json)
+   1. Policies might need further narrow down. I have kept it little relaxing considering future work planned on same theme. 
 4. you are all done. 
 
 Most things are straightforward, in case you need any support, feel free to drop in the issues.
