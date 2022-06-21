@@ -16,11 +16,11 @@ I shall try to add more features as needed *and as I get time.*
 
 ## Roadmap
 Following is the roadmap for the current option
-* Auto Deploy from S3. Completed. See below
-* Auto Deploy from SNS (TODO)
-* Support Lambdas for Listing versions (TODO)
-* Management portal to deploy as needed (TODO)
-* Remove dependency from external S3 Deployment action
+* Auto Deploy from S3. Completed. See below :heavy_check_mark:
+* Auto Deploy from SNS (TODO) :hourglass_flowing_sand:
+* Support Lambdas for Listing versions (TODO) :hourglass_flowing_sand:
+* Management portal to deploy as needed (TODO) :hourglass_flowing_sand:
+* Remove dependency from external S3 Deployment action :hourglass_flowing_sand:
 
 
 # Auto Deploy Lambda from S3
